@@ -1,0 +1,232 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>eams 教务管理系统 · 登录</title>
+  <!-- 复用全局设计令牌（马卡龙配色）与管理页表单控件样式，保持视觉统一 -->
+  <link rel="stylesheet" href="/static/css/dashboard.css">
+  <link rel="stylesheet" href="/static/css/manage.css">
+  <style>
+    /* 登录页：居中卡片 + 柔和渐变背景，沿用马卡龙设计系统 */
+    body {
+      min-height: 100vh;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      padding: 20px;
+      background:
+        radial-gradient(900px 620px at 88% -12%, var(--pink-tint) 0%, transparent 58%),
+        radial-gradient(820px 520px at -12% 112%, var(--sky-tint) 0%, transparent 58%),
+        radial-gradient(640px 480px at 108% 108%, var(--mint-tint) 0%, transparent 55%),
+        var(--bg);
+    }
+
+    .login-card {
+      width: min(400px, 100%);
+      background: var(--surface);
+      border-radius: var(--r-lg);
+      box-shadow: 0 26px 60px rgba(37, 45, 84, 0.16);
+      padding: 38px 36px 30px;
+      animation: rise-in 0.5s var(--trans) both;
+    }
+
+    /* 顶部品牌区：图标 + 系统名 */
+    .login-brand {
+      display: flex;
+      align-items: center;
+      gap: 13px;
+      margin-bottom: 26px;
+    }
+    .login-brand .brand-logo {
+      width: 48px;
+      height: 48px;
+      border-radius: 16px;
+      display: grid;
+      place-items: center;
+      color: #fff;
+      background: linear-gradient(135deg, var(--sky), var(--purple));
+      box-shadow: 0 10px 22px rgba(89, 165, 232, 0.38);
+    }
+    .login-brand .brand-logo svg { width: 24px; height: 24px; }
+    .login-brand .brand-name { font-size: 20px; font-weight: 800; letter-spacing: 0.5px; }
+    .login-brand .brand-sub { font-size: 12.5px; color: var(--text-3); margin-top: 2px; display: block; }
+
+    /* 标题区 */
+    .login-title { font-size: 22px; font-weight: 800; }
+    .login-sub { font-size: 13px; color: var(--text-2); margin: 8px 0 24px; }
+
+    /* 表单纵向排布，输入框更大更清晰 */
+    #loginForm .form-field { margin-bottom: 16px; }
+    #loginForm .form-control {
+      font-size: 14px;
+      padding: 12px 14px;
+      border-radius: 13px;
+    }
+
+    /* 登录按钮通栏 */
+    .login-btn {
+      width: 100%;
+      justify-content: center;
+      padding: 12px 20px;
+      font-size: 14.5px;
+      border-radius: 14px;
+      margin-top: 4px;
+    }
+    .login-btn:disabled { opacity: 0.6; cursor: not-allowed; transform: none; }
+
+    /* 学生注册按钮：通栏次级按钮，与登录按钮间距 */
+    .login-reg {
+      width: 100%;
+      justify-content: center;
+      padding: 12px 20px;
+      font-size: 14px;
+      border-radius: 14px;
+      margin-top: 12px;
+    }
+
+    /* 错误提示 */
+    .login-error {
+      margin: 0 0 14px;
+      padding: 9px 13px;
+      border-radius: 11px;
+      background: var(--pink-tint);
+      color: #d75f8d;
+      font-size: 12.5px;
+      font-weight: 600;
+      text-align: center;
+    }
+
+    /* 底部提示：角色说明 */
+    .login-hint {
+      margin-top: 18px;
+      text-align: center;
+      font-size: 12px;
+      color: var(--text-3);
+    }
+
+    /* 注册弹窗：固定宽度卡片 */
+    .reg-modal { width: min(420px, 100%); }
+
+    /* 注册弹窗内的错误提示 */
+    .reg-error {
+      margin: 14px 0 0;
+      padding: 9px 13px;
+      border-radius: 11px;
+      background: var(--pink-tint);
+      color: #d75f8d;
+      font-size: 12.5px;
+      font-weight: 600;
+      text-align: center;
+    }
+
+    /* 轻量 toast：底部居中 */
+    .reg-toast {
+      position: fixed;
+      left: 50%;
+      bottom: 46px;
+      transform: translate(-50%, 14px);
+      z-index: 200;
+      padding: 11px 22px;
+      border-radius: 13px;
+      background: linear-gradient(135deg, #2eb88a, var(--mint));
+      color: #fff;
+      font-size: 13.5px;
+      font-weight: 700;
+      box-shadow: 0 14px 30px rgba(63, 165, 131, 0.42);
+      opacity: 0;
+      visibility: hidden;
+      transition: opacity 0.24s var(--trans), transform 0.24s var(--trans), visibility 0.24s;
+    }
+    .reg-toast.show { opacity: 1; visibility: visible; transform: translate(-50%, 0); }
+  </style>
+</head>
+<body data-page="login">
+  <!-- 登录卡片：教师 / 学生双角色统一入口 -->
+  <main class="login-card" role="main">
+    <div class="login-brand">
+      <span class="brand-logo">
+        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M22 10 12 5 2 10l10 5 10-5z"/><path d="M6 12v5c0 1.66 2.69 3 6 3s6-1.34 6-3v-5"/><path d="M22 10v6"/></svg>
+      </span>
+      <span>
+        <span class="brand-name">eams 教务管理系统</span>
+        <span class="brand-sub">学校教务管理平台</span>
+      </span>
+    </div>
+
+    <h1 class="login-title">欢迎登录</h1>
+    <p class="login-sub">教师或学生账号均可登录，系统将自动识别角色</p>
+
+    <form id="loginForm" autocomplete="off" novalidate>
+      <div class="form-field">
+        <label class="form-label" for="loginUser">用户名</label>
+        <input class="form-control" id="loginUser" type="text"
+               placeholder="请输入用户名" autocomplete="username">
+      </div>
+      <div class="form-field">
+        <label class="form-label" for="loginPass">密码</label>
+        <input class="form-control" id="loginPass" type="password"
+               placeholder="请输入密码" autocomplete="current-password">
+      </div>
+
+      <p class="login-error" id="loginError" hidden></p>
+
+      <button type="submit" class="btn-primary login-btn" id="loginBtn">登 录</button>
+      <!-- 学生注册入口：仅学生可自助注册 -->
+      <button type="button" class="btn-secondary login-reg" id="regBtn">学生注册</button>
+
+      <p class="login-hint">学生账号注册后即可登录；教师账号由系统管理员开通</p>
+    </form>
+  </main>
+
+  <!-- 学生注册弹窗 -->
+  <div class="modal-mask" id="regMask" role="dialog" aria-modal="true" aria-label="学生注册">
+    <div class="modal reg-modal">
+      <div class="modal-head">
+        <h3>学生注册</h3>
+        <button type="button" class="modal-close" id="regClose" aria-label="关闭">✕</button>
+      </div>
+      <form id="regForm" autocomplete="off" novalidate>
+        <div class="form-grid">
+          <div class="form-field full">
+            <label class="form-label" for="regUsername">用户名<span class="req">*</span></label>
+            <input class="form-control" id="regUsername" type="text" placeholder="3-20 位，用于登录" autocomplete="off">
+          </div>
+          <div class="form-field full">
+            <label class="form-label" for="regPassword">密码<span class="req">*</span></label>
+            <input class="form-control" id="regPassword" type="password" placeholder="6-20 位" autocomplete="new-password">
+          </div>
+          <div class="form-field">
+            <label class="form-label" for="regName">真实姓名<span class="req">*</span></label>
+            <input class="form-control" id="regName" type="text" placeholder="请输入真实姓名">
+          </div>
+          <div class="form-field">
+            <label class="form-label" for="regAge">年龄<span class="req">*</span></label>
+            <input class="form-control" id="regAge" type="number" min="10" max="100" placeholder="10-100">
+          </div>
+          <div class="form-field full">
+            <label class="form-label" for="regGender">性别</label>
+            <select class="form-control" id="regGender">
+              <option value="男" selected>男</option>
+              <option value="女">女</option>
+            </select>
+          </div>
+        </div>
+
+        <p class="reg-error" id="regErr" hidden></p>
+
+        <div class="modal-foot">
+          <button type="button" class="btn-secondary" id="regCancel">取 消</button>
+          <button type="submit" class="btn-primary" id="regSubmit">注 册</button>
+        </div>
+      </form>
+    </div>
+  </div>
+
+  <!-- 注册成功轻提示 -->
+  <div class="reg-toast" id="regToast" aria-live="polite"></div>
+
+  <script src="/static/js/auth.js"></script>
+  <script src="/static/js/login.js"></script>
+</body>
+</html>

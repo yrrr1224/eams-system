@@ -1,0 +1,56 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>eams 教务管理系统 · 课程管理</title>
+  <link rel="stylesheet" href="/static/css/dashboard.css">
+  <link rel="stylesheet" href="/static/css/manage.css">
+</head>
+<body data-page="course">
+  <div class="app">
+    <aside class="sidebar"></aside>
+    <main class="main">
+      <header class="topbar"></header>
+
+      <div class="content">
+        <section class="page-head">
+          <div class="page-title">
+            <h2>课程管理</h2>
+            <p>管理课程信息与授课教师</p>
+          </div>
+          <div class="page-actions">
+            <div class="search-box">
+              <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="11" cy="11" r="7"/><line x1="21" y1="21" x2="16.65" y2="16.65"/></svg>
+              <input id="searchInput" type="text" placeholder="搜索课程名称" autocomplete="off">
+              <button id="searchBtn" class="search-go">搜索</button>
+            </div>
+            <button class="btn-primary" id="addBtn">
+              <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><line x1="12" y1="5" x2="12" y2="19"/><line x1="5" y1="12" x2="19" y2="12"/></svg>
+              <span>新增课程</span>
+            </button>
+          </div>
+        </section>
+
+        <div class="panel table-card">
+          <div class="table-wrap">
+            <table id="dataTable">
+              <thead></thead>
+              <tbody></tbody>
+            </table>
+          </div>
+          <div class="pagination" id="pagination"></div>
+        </div>
+      </div>
+    </main>
+  </div>
+
+  <div id="modalRoot"></div>
+  <div id="toastRoot"></div>
+
+  <!-- 登录守卫：未登录访问本页会被强制跳转登录页 -->
+  <script src="/static/js/auth.js"></script>
+  <script src="/static/js/layout.js"></script>
+  <script src="/static/js/manage.js"></script>
+</body>
+</html>

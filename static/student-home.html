@@ -1,0 +1,151 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>eams 教务管理系统 · 学生主页</title>
+  <!-- 复用全局设计令牌（马卡龙配色）与管理页表单/表格样式；学生端以蓝白为主调 -->
+  <link rel="stylesheet" href="/static/css/dashboard.css">
+  <link rel="stylesheet" href="/static/css/manage.css">
+  <style>
+    /* 学生端内容区：三段式面板 */
+    .content { padding-top: 10px; }
+
+    .sec-card {
+      margin-bottom: 22px;
+      animation: rise-in 0.55s var(--trans) both;
+    }
+    .sec-head {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      margin-bottom: 16px;
+    }
+    .sec-head h3 { font-size: 17px; font-weight: 800; letter-spacing: 0.3px; }
+    .sec-head p { margin-top: 4px; font-size: 12.5px; color: var(--text-3); }
+
+    /* 个人信息：两列信息卡片 */
+    .profile-grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fill, minmax(200px, 1fr));
+      gap: 12px 18px;
+    }
+    .profile-item {
+      padding: 14px 16px;
+      border-radius: 14px;
+      background: #f7f9fe;
+      border: 1px solid var(--line);
+    }
+    .profile-item .k { font-size: 12px; color: var(--text-3); margin-bottom: 6px; }
+    .profile-item .v {
+      font-size: 15px;
+      font-weight: 700;
+      color: var(--text-1);
+      word-break: break-all;
+    }
+    .profile-item .v .muted { color: var(--text-3); font-weight: 500; }
+
+    /* 选课操作条 */
+    .select-bar {
+      display: flex;
+      align-items: center;
+      gap: 12px;
+      margin-bottom: 16px;
+      padding: 14px 16px;
+      border-radius: 14px;
+      background: linear-gradient(135deg, #f2f7ff, #f7f9fe);
+      border: 1px solid var(--line);
+    }
+    .select-bar .form-control { max-width: 320px; }
+    .select-bar .hint { font-size: 12.5px; color: var(--text-3); }
+    .select-bar .btn-primary:disabled { opacity: 0.5; cursor: not-allowed; transform: none; }
+
+    /* 成绩徽章：优良为薄荷绿，不及格为粉色 */
+    .chip.score-pass { background: var(--mint-tint); color: #2f8f6c; }
+    .chip.score-fail { background: var(--pink-tint); color: #d75f8d; }
+  </style>
+</head>
+<body data-page="student-home">
+  <div class="app">
+    <aside class="sidebar"></aside>
+    <main class="main">
+      <header class="topbar"></header>
+
+      <div class="content">
+        <!-- ① 个人信息 -->
+        <section class="panel sec-card" id="sec-profile">
+          <div class="sec-head">
+            <div>
+              <h3>个人信息</h3>
+              <p>我的学籍档案</p>
+            </div>
+            <span class="chip" id="profileState">加载中…</span>
+          </div>
+          <div class="profile-grid" id="profileFields">
+            <div class="profile-item"><div class="k">加载中</div><div class="v">…</div></div>
+          </div>
+        </section>
+
+        <!-- ② 我的选课 -->
+        <section class="panel sec-card" id="sec-courses">
+          <div class="sec-head">
+            <div>
+              <h3>我的选课</h3>
+              <p>选择课程与已选课程管理</p>
+            </div>
+          </div>
+          <div class="select-bar">
+            <select class="form-control" id="courseSelect" aria-label="可选课程"></select>
+            <button class="btn-primary" id="selectBtn" type="button">选择课程</button>
+            <span class="hint" id="selectHint"></span>
+          </div>
+          <div class="table-wrap">
+            <table id="coursesTable">
+              <thead>
+                <tr>
+                  <th>课程名</th>
+                  <th>学分</th>
+                  <th>授课教师</th>
+                  <th>成绩</th>
+                  <th>操作</th>
+                </tr>
+              </thead>
+              <tbody></tbody>
+            </table>
+          </div>
+        </section>
+
+        <!-- ③ 我的成绩 -->
+        <section class="panel sec-card" id="sec-scores">
+          <div class="sec-head">
+            <div>
+              <h3>我的成绩</h3>
+              <p>已登记课程成绩一览</p>
+            </div>
+          </div>
+          <div class="table-wrap">
+            <table id="scoresTable">
+              <thead>
+                <tr>
+                  <th>课程名</th>
+                  <th>学分</th>
+                  <th>成绩</th>
+                  <th>等级</th>
+                </tr>
+              </thead>
+              <tbody></tbody>
+            </table>
+          </div>
+        </section>
+      </div>
+    </main>
+  </div>
+
+  <div id="toastRoot"></div>
+
+  <!-- 登录守卫（双角色）→ 侧边栏/顶栏（角色相关）→ 学生主页数据逻辑 -->
+  <script src="/static/js/auth.js"></script>
+  <script src="/static/js/layout.js"></script>
+  <script src="/static/js/student-home.js"></script>
+</body>
+</html>

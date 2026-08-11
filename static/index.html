@@ -1,0 +1,80 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>eams 教务管理系统 · 数据总览</title>
+  <link rel="stylesheet" href="/static/css/dashboard.css">
+</head>
+<body data-page="home">
+  <!-- 顶部浮动提示层：图表悬浮详情统一挂载到这里 -->
+  <div class="chart-tip" id="chartTip" role="tooltip" aria-hidden="true"></div>
+
+  <div class="app">
+    <!-- 左侧侧边导航 / 顶栏：由 js/layout.js 统一注入 -->
+    <aside class="sidebar"></aside>
+
+    <main class="main">
+      <header class="topbar"></header>
+
+      <!-- 内容区 -->
+      <div class="content">
+        <!-- ① 欢迎标题 -->
+        <section class="welcome">
+          <div class="welcome-text">
+            <h1 class="welcome-title" id="welcomeTitle">你好，管理员 👋</h1>
+            <p class="welcome-sub">欢迎回到 eams 教务管理中心，以下是今日校园概况。</p>
+          </div>
+          <div class="welcome-date" id="welcomeDate">—</div>
+        </section>
+
+        <!-- ② 数据统计卡片（由 dashboard.js 按数据生成） -->
+        <section class="stats-grid" id="statsGrid" aria-label="数据概览"></section>
+
+        <!-- ③ 图表面板 -->
+        <section class="charts-grid">
+          <div class="panel" data-chart="trend">
+            <header class="panel-head">
+              <h3 class="panel-title">近 7 日选课趋势</h3>
+              <span class="panel-tag">单位：人次</span>
+            </header>
+            <div class="panel-body" data-render="trend"></div>
+          </div>
+
+          <div class="panel" data-chart="classCount">
+            <header class="panel-head">
+              <h3 class="panel-title">各班级人数分布</h3>
+              <span class="panel-tag">单位：人</span>
+            </header>
+            <div class="panel-body" data-render="classCount"></div>
+          </div>
+
+          <div class="panel" data-chart="courseHot">
+            <header class="panel-head">
+              <h3 class="panel-title">课程选课热度排行</h3>
+              <span class="panel-tag">按选课人次</span>
+            </header>
+            <div class="panel-body" data-render="courseHot"></div>
+          </div>
+
+          <div class="panel" data-chart="gender">
+            <header class="panel-head">
+              <h3 class="panel-title">在校学生性别占比</h3>
+              <span class="panel-tag">全校在校生</span>
+            </header>
+            <div class="panel-body" data-render="gender"></div>
+          </div>
+        </section>
+
+        <footer class="page-foot">eams 学校教务管理系统 · 数据更新于今日 08:00</footer>
+      </div>
+    </main>
+  </div>
+
+  <!-- 登录守卫：未登录访问本页会被强制跳转登录页 -->
+  <script src="/static/js/auth.js"></script>
+  <script src="/static/js/layout.js"></script>
+  <script src="/static/js/dashboard.js"></script>
+  <script src="/static/js/charts.js"></script>
+</body>
+</html>
