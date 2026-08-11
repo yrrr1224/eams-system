@@ -6,11 +6,11 @@ import logging
 
 from fastapi import APIRouter, HTTPException
 
-from auth.model import UserModel
-from auth.vo import RegisterRequest, LoginRequest
-from student.model import StudentModel
-from common.response import success
-from common.security import create_access_token
+from .model import UserModel
+from .vo import RegisterRequest, LoginRequest
+from ..student.model import StudentModel
+from ..common.response import success
+from ..common.security import create_access_token
 
 logger = logging.getLogger(__name__)
 

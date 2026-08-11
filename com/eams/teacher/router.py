@@ -9,9 +9,11 @@ import logging
 from fastapi import APIRouter, HTTPException
 from fastapi.params import Depends
 
-from auth.auth_deps import get_current_user, require_teacher
-from teacher.model import TeacherModel, TeacherRetireModel, TeacherBonusModel
-from teacher.vo import (
+# 向上一级回到 eams，再访问 auth 模块
+from ..auth.auth_deps import get_current_user, require_teacher
+# 同文件夹内部引用，用单点 .
+from .model import TeacherModel, TeacherRetireModel, TeacherBonusModel
+from .vo import (
     TeacherCreate,
     TeacherUpdate,
     TeacherRetireCreate,
@@ -19,7 +21,8 @@ from teacher.vo import (
     TeacherBonusCreate,
     TeacherBonusUpdate,
 )
-from common.response import success
+# 向上一级回到 eams，访问同级 common
+from ..common.response import success
 
 logger = logging.getLogger(__name__)
 
