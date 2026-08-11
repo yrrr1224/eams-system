@@ -7,7 +7,9 @@
 import logging
 
 from fastapi import APIRouter, HTTPException
+from fastapi.params import Depends
 
+from Group6.eams.auth.auth_deps import get_current_user, require_teacher
 from Group6.eams.zhicheng.model import TeacherTitleModel
 from Group6.eams.zhicheng.vo import TeacherTitleCreate, TeacherTitleUpdate
 from Group6.eams.teacher.model import TeacherModel
@@ -26,13 +28,13 @@ def _ensure_teacher_exists(teacher_id):
 
 
 @router.get("/all")  # 路由装饰器：注册 GET 查询接口
-def list_titles(keyword: str = ""):
+def list_titles(keyword: str = "",user = Depends(get_current_user)):
     """查：获取所有职称记录（含教师姓名），可按教师姓名或职称模糊查询"""
     return success(TeacherTitleModel().get_all(keyword))
 
 
 @router.get("/one/{title_id}")  # 路由装饰器：注册 GET 查询接口
-def get_title(title_id: int):
+def get_title(title_id: int,user = Depends(get_current_user)):
     """查：按 ID 获取单条职称记录"""
     record = TeacherTitleModel().get_by_id(title_id)
     if record is None:
@@ -41,14 +43,14 @@ def get_title(title_id: int):
 
 
 @router.get("/by-teacher/{teacher_id}")  # 路由装饰器：注册 GET 查询接口
-def list_titles_by_teacher(teacher_id: int):
+def list_titles_by_teacher(teacher_id: int,user = Depends(get_current_user)):
     """查：按教师 ID 查询其全部职称记录"""
     _ensure_teacher_exists(teacher_id)
     return success(TeacherTitleModel().get_by_teacher(teacher_id))
 
 
 @router.post("/add")  # 路由装饰器：注册 POST 新增接口
-def add_title(data: TeacherTitleCreate):
+def add_title(data: TeacherTitleCreate, user = Depends(require_teacher)):
     """增：登记教师职称"""
     _ensure_teacher_exists(data.teacher_id)
     new_id = TeacherTitleModel().create(
@@ -59,7 +61,7 @@ def add_title(data: TeacherTitleCreate):
 
 
 @router.put("/update/{title_id}")  # 路由装饰器：注册 PUT 修改接口
-def update_title(title_id: int, data: TeacherTitleUpdate):
+def update_title(title_id: int, data: TeacherTitleUpdate, user = Depends(require_teacher)):
     """改：修改职称记录"""
     if TeacherTitleModel().get_by_id(title_id) is None:
         raise HTTPException(status_code=404, detail="职称记录不存在")
@@ -72,7 +74,7 @@ def update_title(title_id: int, data: TeacherTitleUpdate):
 
 
 @router.delete("/del/{title_id}")  # 路由装饰器：注册 DELETE 删除接口
-def delete_title(title_id: int):
+def delete_title(title_id: int, user = Depends(require_teacher)):
     """删：删除职称记录"""
     if TeacherTitleModel().get_by_id(title_id) is None:
         raise HTTPException(status_code=404, detail="职称记录不存在")
