@@ -6,7 +6,7 @@ CourseModel：封装 courses 表 SQL（增删改查 + 按课程名查询，关�
 StudentCourseModel：封装 student_course 表 SQL（学生选课 / 退课 / 成绩 / 查询）
 依赖：common.db.Database
 """
-from eams.common.db import Database
+from com.eams.common.db import Database
 
 
 class CourseModel:
