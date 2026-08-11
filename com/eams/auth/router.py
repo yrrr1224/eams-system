@@ -6,11 +6,11 @@ import logging
 
 from fastapi import APIRouter, HTTPException
 
-from eams.auth.model import UserModel
-from eams.auth.vo import RegisterRequest, LoginRequest
-from eams.student.model import StudentModel
-from eams.common.response import success
-from eams.common.security import create_access_token
+from auth.model import UserModel
+from auth.vo import RegisterRequest, LoginRequest
+from student.model import StudentModel
+from common.response import success
+from common.security import create_access_token
 
 logger = logging.getLogger(__name__)
 

@@ -14,11 +14,10 @@ import logging
 # from eams.common.response import success
 
 logger = logging.getLogger(__name__)
-import logging
 from fastapi import APIRouter, Depends
-from eams.stats.model import StatsModel
-from eams.common.response import success
-from eams.auth.auth_deps import get_current_user
+from stats.model import StatsModel
+from common.response import success
+from auth.auth_deps import get_current_user
 
 # logger = logging.getLogger(__name__)
 # router = APIRouter(prefix="/stats", tags=["统计模块"])

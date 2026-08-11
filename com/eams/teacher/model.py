@@ -8,7 +8,7 @@
 import logging
 
 
-from eams.common.db import Database
+from common.db import Database
 
 logger = logging.getLogger(__name__)
 

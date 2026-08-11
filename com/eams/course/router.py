@@ -8,17 +8,16 @@
 存在性校验（学生 / 课程不存在抛 404）、重复选课拦截（400）
 """
 import logging
-from typing import List
 from fastapi import APIRouter, HTTPException, Depends
 
-from eams.course.model import CourseModel, StudentCourseModel
-from eams.course.vo import (
-    CourseCreate, CourseUpdate, CourseSelect, ScoreUpdate, CourseResponse
+from course.model import CourseModel, StudentCourseModel
+from course.vo import (
+    CourseCreate, CourseUpdate, CourseSelect, ScoreUpdate
 )
-from eams.student.model import StudentModel
-from eams.teacher.model import TeacherModel
-from eams.common.response import success
-from eams.auth.auth_deps import get_current_user, require_teacher
+from student.model import StudentModel
+from teacher.model import TeacherModel
+from common.response import success
+from auth.auth_deps import get_current_user, require_teacher
 
 logger = logging.getLogger(__name__)
 

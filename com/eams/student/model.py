@@ -6,7 +6,7 @@
 包含：增删改查、分班、选老师、关键字查询、分页查询、级联删除（逐条执行）
 依赖：common.db.Database
 """
-from eams.common.db import Database
+from common.db import Database
 
 
 class StudentModel:

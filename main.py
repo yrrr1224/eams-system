@@ -14,16 +14,15 @@ from fastapi.staticfiles import StaticFiles
 from fastapi.responses import FileResponse, RedirectResponse
 
 # 统一导入前缀：eams
-from eams.auth.router import router as auth_router
-from eams.student.router import router as student_router
-from eams.teacher.router import router as teacher_router
-from eams.classes.router import router as classes_router
-from eams.course.router import router as course_router
-from eams.stats.router import router as stats_router
+from auth import router as auth_router
+from student.router import router as student_router
+from teacher.router import router as teacher_router
+from classes.router import router as classes_router
+from course.router import router as course_router
+from stats.router import router as stats_router
 
 # 加载公共日志、全局异常
-import eams.common.logging
-from eams.common.exceptions import register_exception_handlers
+from common.exceptions import register_exception_handlers
 
 # 实例化 FastAPI 主程序
 app = FastAPI(

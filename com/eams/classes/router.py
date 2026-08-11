@@ -1,11 +1,11 @@
 import logging
 import pymysql
 from fastapi import APIRouter, HTTPException
-from eams.classes.model import ClassModel,CommitteeModel
-from eams.classes.vo import ClassCreate, ClassUpdate,CommitteeAssign, CommitteeUpdate
-from eams.teacher.model import TeacherModel
-from eams.common.response import success
-from eams.student.model import StudentModel
+from classes.model import ClassModel,CommitteeModel
+from classes.vo import ClassCreate, ClassUpdate,CommitteeAssign, CommitteeUpdate
+from teacher.model import TeacherModel
+from common.response import success
+from student.model import StudentModel
 from typing import List
 
 logger = logging.getLogger(__name__)

@@ -5,7 +5,7 @@
 职责：封装 users 表的 SQL 操作
 依赖：common.db.Database
 """
-from eams.common.db import Database
+from common.db import Database
 
 class UserModel:
     """用户表（注册/登录）数据访问"""

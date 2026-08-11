@@ -13,11 +13,11 @@ import io
 from fastapi.responses import Response
 from fastapi import APIRouter, HTTPException
 
-from eams.student.model import StudentModel
-from eams.student.vo import StudentCreate, StudentUpdate, ClassAssign, TeacherAssign
-from eams.classes.model import ClassModel
-from eams.teacher.model import TeacherModel
-from eams.common.response import success
+from student.model import StudentModel
+from student.vo import StudentCreate, StudentUpdate, ClassAssign, TeacherAssign
+from classes.model import ClassModel
+from teacher.model import TeacherModel
+from common.response import success
 
 logger = logging.getLogger(__name__)
 

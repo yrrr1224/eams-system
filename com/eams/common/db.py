@@ -6,7 +6,7 @@
 """
 import pymysql
 
-from eams.common.config import settings
+from common.config import settings
 # ===== 数据库配置（从 .env / settings 读取） =====
 DB_CONFIG = {
     'host': settings.db_host,                              # 数据库地址
