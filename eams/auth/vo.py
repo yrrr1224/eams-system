@@ -1,9 +1,8 @@
 # 文件名：auth/vo.py
 """
-认证模块 - 请求 VO（注册/登录）
-
-职责：定义注册、登录请求体的字段与校验规则（pydantic BaseModel）
-依赖：pydantic（BaseModel / Field）
+认证模块 - 请求 VO
+职责：定义注册、登录请求体的字段与校验规则
+依赖：pydantic
 """
 from pydantic import BaseModel, Field
 

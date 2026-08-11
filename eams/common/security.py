@@ -1,4 +1,4 @@
-from datetime import datetime, timedelta
+from datetime import datetime, timedelta, timezone
 from jose import jwt, JWTError
 from fastapi import HTTPException, status
 
@@ -9,7 +9,7 @@ ACCESS_TOKEN_EXPIRE_MINUTES = 120
 
 def create_access_token(user_id: int, username: str, role: str):
     """生成token，携带角色role"""
-    expire = datetime.utcnow() + timedelta(minutes=ACCESS_TOKEN_EXPIRE_MINUTES)
+    expire = datetime.now(timezone.utc) + timedelta(minutes=ACCESS_TOKEN_EXPIRE_MINUTES)
     payload = {
         "sub": username,
         "user_id": user_id,

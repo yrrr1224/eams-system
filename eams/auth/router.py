@@ -24,8 +24,8 @@ router = APIRouter(prefix="/auth", tags=["认证模块"])
 def register(data: RegisterRequest):
     """
     学生自主注册
-    流程：先创建学生记录 → 再用学生ID创建登录账号（密码明文存储，教学演示）
-    :param data: 注册请求体（用户名/密码/姓名/性别/年龄）
+    流程：先创建学生记录 → 再用学生ID创建登录账号
+    :param data: 注册请求体
     :return: {"student_id", "username"}
     :raises HTTPException 400: 用户名已存在
     """
