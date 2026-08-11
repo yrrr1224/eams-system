@@ -9,9 +9,9 @@ import logging
 from fastapi import APIRouter, HTTPException
 from fastapi.params import Depends
 
-from Group6.eams.auth.auth_deps import get_current_user, require_teacher
-from Group6.eams.teacher.model import TeacherModel, TeacherRetireModel, TeacherBonusModel
-from Group6.eams.teacher.vo import (
+from eams.auth.auth_deps import get_current_user, require_teacher
+from eams.teacher.model import TeacherModel, TeacherRetireModel, TeacherBonusModel
+from eams.teacher.vo import (
     TeacherCreate,
     TeacherUpdate,
     TeacherRetireCreate,
@@ -19,7 +19,7 @@ from Group6.eams.teacher.vo import (
     TeacherBonusCreate,
     TeacherBonusUpdate,
 )
-from Group6.eams.common.response import success
+from eams.common.response import success
 
 logger = logging.getLogger(__name__)
 
