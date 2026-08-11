@@ -7,20 +7,16 @@
 - GET /stats/course-selected：课程选课热度排行（柱状图数据源）
 """
 import logging
-#
-# from fastapi import APIRouter
-#
-# from eams.stats.model import StatsModel
-# from eams.common.response import success
+from fastapi import APIRouter, Depends
+
+# 读取本文件夹内model：单点 .
+from .model import StatsModel
+
+# 读取同级其他模块：两点 .. 回到上级eams目录
+from ..common.response import success
+from ..auth.auth_deps import get_current_user
 
 logger = logging.getLogger(__name__)
-from fastapi import APIRouter, Depends
-from stats.model import StatsModel
-from common.response import success
-from auth.auth_deps import get_current_user
-
-# logger = logging.getLogger(__name__)
-# router = APIRouter(prefix="/stats", tags=["统计模块"])
 # 创建子路由
 router = APIRouter(prefix="/stats", tags=["统计模块"])
 

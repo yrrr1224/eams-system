@@ -1,11 +1,16 @@
 import logging
 import pymysql
 from fastapi import APIRouter, HTTPException
-from classes.model import ClassModel,CommitteeModel
-from classes.vo import ClassCreate, ClassUpdate,CommitteeAssign, CommitteeUpdate
-from teacher.model import TeacherModel
-from common.response import success
-from student.model import StudentModel
+
+# 同目录内部文件：用 .
+from .model import ClassModel, CommitteeModel
+from .vo import ClassCreate, ClassUpdate, CommitteeAssign, CommitteeUpdate
+
+# 跨同级文件夹：用 .. 回到上级 eams 目录
+from ..teacher.model import TeacherModel
+from ..common.response import success
+from ..student.model import StudentModel
+
 from typing import List
 
 logger = logging.getLogger(__name__)

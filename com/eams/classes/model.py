@@ -1,4 +1,4 @@
-from common.db import Database
+from ..common.db import Database
 import pymysql
 
 class ClassModel:

@@ -10,14 +10,17 @@
 import logging
 from fastapi import APIRouter, HTTPException, Depends
 
-from course.model import CourseModel, StudentCourseModel
-from course.vo import (
+# 当前course目录内部文件：单点 .
+from .model import CourseModel, StudentCourseModel
+from .vo import (
     CourseCreate, CourseUpdate, CourseSelect, ScoreUpdate
 )
-from student.model import StudentModel
-from teacher.model import TeacherModel
-from common.response import success
-from auth.auth_deps import get_current_user, require_teacher
+
+# 同级跨文件夹：两点 .. 回到上级eams目录
+from ..student.model import StudentModel
+from ..teacher.model import TeacherModel
+from ..common.response import success
+from ..auth.auth_deps import get_current_user, require_teacher
 
 logger = logging.getLogger(__name__)
 
