@@ -1,6 +1,7 @@
 # 文件名：auth/model.py
 """
 认证模块 - 数据访问层
+
 职责：封装 users 表的 SQL 操作
 依赖：common.db.Database
 """
@@ -10,7 +11,7 @@ class UserModel:
     """用户表（注册/登录）数据访问"""
     def find_by_username(self, username):
         """
-        根据用户名查询用户（登录时用）
+        根据用户名查询用户
         :param username: 用户名
         :return: 用户行 dict；不存在返回 None
         """

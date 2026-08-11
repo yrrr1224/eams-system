@@ -6,12 +6,10 @@ import logging
 
 from fastapi import APIRouter, HTTPException
 
-# 统一修改导入前缀：eams
 from eams.auth.model import UserModel
 from eams.auth.vo import RegisterRequest, LoginRequest
 from eams.student.model import StudentModel
 from eams.common.response import success
-
 from eams.common.security import create_access_token
 
 logger = logging.getLogger(__name__)
@@ -23,9 +21,8 @@ router = APIRouter(prefix="/auth", tags=["认证模块"])
 @router.post("/register")
 def register(data: RegisterRequest):
     """
-    学生自主注册
-    流程：先创建学生记录 → 再用学生ID创建登录账号
-    :param data: 注册请求体
+    学生自主注册: 先创建学生记录 → 再用学生ID创建登录账号
+    :param data: 注册请求体（用户名/密码/姓名/性别/年龄）
     :return: {"student_id", "username"}
     :raises HTTPException 400: 用户名已存在
     """
