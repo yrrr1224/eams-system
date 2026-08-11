@@ -1,5 +1,5 @@
-# 文件名：eams/classes/model.py
 from eams.common.db import Database
+import pymysql
 
 class ClassModel:
     """班级表（分班）数据访问"""
@@ -85,6 +85,22 @@ class ClassModel:
         finally:
             db.close()
 
+    def exists(self, name):
+        """
+        按班级名查是否已存在（重名校验）
+        :param name: 班级名称
+        :return: True=已存在，False=可用
+        """
+        db = Database()
+        try:
+            row = db.query_one(
+                "SELECT id FROM classes WHERE name = %s LIMIT 1",
+                (name,)
+            )
+            return row is not None
+        finally:
+            db.close()
+
     def update(self, class_id, name, grade, head_teacher_id):
         """
         修改班级
@@ -145,5 +161,88 @@ class ClassModel:
             del_sql = f"DELETE FROM classes WHERE id IN ({placeholders})"
             affect_rows = db.execute(del_sql, params_tuple)
             return affect_rows
+        finally:
+            db.close()
+class CommitteeModel:
+    """班委表数据访问（class_committee + class_committee_role）"""
+
+    def list_roles(self):
+        """全部班委角色（前端下拉）"""
+        db = Database()
+        try:
+            return db.query_all(
+                "SELECT id, role_name, role_desc FROM class_committee_role ORDER BY id"
+            )
+        finally:
+            db.close()
+
+    def list_class_students(self, class_id):
+        """某班级的在册学生（班委弹窗的学生下拉用）"""
+        db = Database()
+        try:
+            return db.query_all(
+                "SELECT id, name FROM students WHERE class_id=%s ORDER BY id",
+                (class_id,)
+            )
+        finally:
+            db.close()
+
+    def list_by_class(self, class_id, term=None):
+        """班级班委名单，JOIN 学生名/角色名"""
+        sql = (
+            "SELECT cc.id, cc.class_id, cc.student_id, cc.role_id, cc.term, "
+            "       s.name AS student_name, ccr.role_name "
+            "FROM class_committee cc "
+            "JOIN students s ON cc.student_id = s.id "
+            "JOIN class_committee_role ccr ON cc.role_id = ccr.id "
+            "WHERE cc.class_id = %s"
+        )
+        params = [class_id]
+        if term:
+            sql += " AND cc.term = %s"
+            params.append(term)
+        sql += " ORDER BY ccr.id"
+        db = Database()
+        try:
+            return db.query_all(sql, tuple(params))
+        finally:
+            db.close()
+
+    def create(self, class_id, student_id, role_id, term):
+        db = Database()
+        try:
+            return db.insert(
+                "INSERT INTO class_committee (class_id, student_id, role_id, term) "
+                "VALUES (%s, %s, %s, %s)",
+                (class_id, student_id, role_id, term)
+            )
+        finally:
+            db.close()
+
+    def update(self, committee_id, role_id, term):
+        db = Database()
+        try:
+            return db.execute(
+                "UPDATE class_committee SET role_id=%s, term=%s WHERE id=%s",
+                (role_id, term, committee_id)
+            )
+        finally:
+            db.close()
+
+    def get_by_id(self, committee_id):
+        db = Database()
+        try:
+            return db.query_one(
+                "SELECT * FROM class_committee WHERE id=%s", (committee_id,)
+            )
+        finally:
+            db.close()
+
+    def delete(self, committee_id):
+        db = Database()
+        try:
+            return db.execute(
+                "DELETE FROM class_committee WHERE id=%s", (committee_id,)
+            )
         finally:
             db.close()
