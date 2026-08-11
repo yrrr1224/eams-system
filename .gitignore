@@ -1,0 +1,21 @@
+# EAMS Git 忽略清单：不入版本库的文件
+# Python 虚拟环境（可再生，禁止提交）
+.venv/
+
+# Python 字节码缓存
+__pycache__/
+*.py[cod]
+
+# 运行日志
+logs/
+*.log
+
+# IDE 本地配置
+.idea/
+
+# 本地环境配置（含数据库密码，不进版本库，需自行创建）
+.env
+
+# 系统/临时文件
+.DS_Store
+Thumbs.db
